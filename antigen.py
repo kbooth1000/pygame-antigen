@@ -59,9 +59,8 @@ def main(canvas_width, canvas_height):
                     distance_from_point = math.hypot(mouse_pos[0] - point[0], mouse_pos[1] - point[1])
                     if distance_from_point <= 5:
                         adjusted_click = point
-                        
-                print adjusted_click
-                click_coords.append(adjusted_click)
+                        click_coords.append(adjusted_click)
+                
                 #click_coords.append(pygame.mouse.get_pos())
                 draw = False
 
@@ -102,11 +101,6 @@ def main(canvas_width, canvas_height):
     
 
 # Create and print polygon coor point list
-
-    
-
-    print create_relative_polygon_list(click_coords)
-
 
     print click_coords
 if __name__ == '__main__':
