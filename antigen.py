@@ -1,12 +1,12 @@
 import pygame
-
+import math
 
 
 def main(canvas_width, canvas_height):
     width = canvas_width
     height = canvas_height
     bg_color = (97, 159, 182)
-    line_color = (182,159,97)
+    line_color = (182,59,247)
 
     pygame.init()
     screen = pygame.display.set_mode((1024, 768))
@@ -16,6 +16,7 @@ def main(canvas_width, canvas_height):
      
     click_coords = []
     polygon_origin = ()
+    grid_points = []
 
     def create_grid(grid_w, grid_h):
         for i in range(50, grid_h):
@@ -23,11 +24,12 @@ def main(canvas_width, canvas_height):
                 for j in range(50, grid_w):
                     if j % 50 == 0:
                         pygame.draw.circle(screen, (0,0,0), (j, i), 5, 1)
+                        grid_points.append((j,i))
 
     def create_relative_polygon_list(coords_list):
         relative_polygon_points = []
-        for point in click_coords:
-            relative_polygon_points.append( ((point[0]-coords_list[0][0]), (point[1]-coords_list[0][1])) )
+        for r_point in click_coords:
+            relative_polygon_points.append( ((r_point[0]-coords_list[0][0]), (r_point[1]-coords_list[0][1])) )
         return relative_polygon_points
         
     def draw_polygon(polygon_points_list, polygon_x, polygon_y, polygon_color):
@@ -50,8 +52,17 @@ def main(canvas_width, canvas_height):
             # Event handling
             
             if event.type == pygame.MOUSEBUTTONUP:
-                print pygame.mouse.get_pos()
-                click_coords.append(pygame.mouse.get_pos())
+                adjusted_click = ()
+                #print pygame.mouse.get_pos()  # for testing 
+                mouse_pos = pygame.mouse.get_pos()
+                for point in grid_points:
+                    distance_from_point = math.hypot(mouse_pos[0] - point[0], mouse_pos[1] - point[1])
+                    if distance_from_point <= 5:
+                        adjusted_click = point
+                        
+                print adjusted_click
+                click_coords.append(adjusted_click)
+                #click_coords.append(pygame.mouse.get_pos())
                 draw = False
 
             
